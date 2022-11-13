@@ -40,6 +40,7 @@ export const RegisterPage = () => {
   async function handleRegister() {
     try {
       const data = registerForm.getFieldsValue();
+      console.log(data);
       const result = await register(data);
       if (!result) {
         return message.error("Register failed");
@@ -89,10 +90,10 @@ export const RegisterPage = () => {
             requiredRule,
             {
               validator(rule, value) {
-                if (value.length !== 9) {
-                  return Promise.reject("Invalid length");
+                if (value.toString().length !== 9) {
+                  return Promise.reject("Invalid format");
                 }
-                return Promise.resolve(`+66${value}`);
+                return Promise.resolve();
               },
             },
           ]}
@@ -107,10 +108,10 @@ export const RegisterPage = () => {
         <Form.Item
           name="tocAccepted"
           label="Terms and conditions"
+          requiredMark
           getValueFromEvent={(e) => e.target.checked}
           valuePropName="checked"
           rules={[
-            requiredRule,
             {
               validator(rule, value) {
                 if (value === true) {
